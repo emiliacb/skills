@@ -9,6 +9,7 @@ Each skill is a folder under [`skills/`](skills/) with a `SKILL.md` (YAML frontm
 | Skill | What it does |
 |---|---|
 | [`notify`](skills/notify/SKILL.md) | Sends push notifications to the phone via [ntfy](https://ntfy.sh). |
+| [`reduce-complexity`](skills/reduce-complexity/SKILL.md) | Per-line complexity reduction pass over the current branch's diff. |
 
 ## Setup (for the `notify` skill)
 
@@ -62,6 +63,8 @@ git clone git@github.com:emiliacb/skills.git ~/.pi/agent/skills/emiliacb-skills
 ```
 skills/                          # one folder serves all four installers
   notify/
+    SKILL.md
+  reduce-complexity/
     SKILL.md
 .claude-plugin/
   marketplace.json               # marketplace catalog (Claude)
