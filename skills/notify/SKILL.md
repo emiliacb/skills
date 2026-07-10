@@ -28,7 +28,6 @@ curl -d 'message' "https://ntfy.sh/$TOPIC"
 
 ## Message format
 
-- Keep it short. Write the message body in the user's language (Spanish).
 - Always set `Title:` to identify the thread/project: `[repo-or-topic] what happened`.
 - Do not include the time: ntfy timestamps messages automatically.
 
