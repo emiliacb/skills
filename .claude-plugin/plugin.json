@@ -1,0 +1,11 @@
+{
+  "name": "skills",
+  "description": "Emilia's personal skills. Includes notify (push notifications to the phone via ntfy).",
+  "version": "0.1.0",
+  "author": {
+    "name": "Emilia CB",
+    "email": "emilia@usesonora.com"
+  },
+  "repository": "https://github.com/emiliacb/skills",
+  "license": "MIT"
+}
