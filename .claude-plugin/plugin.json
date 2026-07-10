@@ -1,7 +1,7 @@
 {
   "name": "skills",
   "description": "Emilia's personal skills. Includes notify (push notifications to the phone via ntfy).",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Emilia CB",
     "email": "emilia@usesonora.com"
