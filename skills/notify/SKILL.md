@@ -51,7 +51,6 @@ curl -H "Title: [sonora-api] tests OK" -H "Tags: white_check_mark" -H "Priority:
 | `Click: https://...` | URL opened when tapping the notification (PR, dashboard, doc) |
 | `Markdown: yes` | Renders the message body as markdown |
 | `Actions: view, Label, https://url` | Action buttons (view/http/copy; separate multiple with `;`) |
-| `At: tomorrow, 10am` / `In: 30m` | Scheduled delivery (10 s to 3 days) |
 
 ## Screenshots and files
 
