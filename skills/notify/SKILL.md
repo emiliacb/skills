@@ -1,6 +1,6 @@
 ---
 name: notify
-description: Use when Emilia explicitly asks to be notified on her phone ("avisame al celular", "mandame un ntfy", "notify me"), when /goal is active and there is a completion, blocker, or result to report, or when the user invokes /notify. Do NOT use unprompted for routine work.
+description: Use when User explicitly asks to be notified on her phone ("avisame al celular", "mandame un ntfy", "notify me"), when /goal is active and there is a completion, blocker, or result to report, or when the user invokes /notify. Do NOT use unprompted for routine work.
 ---
 
 # Notify — push notification to phone via ntfy
