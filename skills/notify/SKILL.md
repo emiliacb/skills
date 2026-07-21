@@ -1,28 +1,36 @@
 ---
 name: notify
-description: Use when User explicitly asks to be notified on her phone ("avisame al celular", "mandame un ntfy", "notify me"), when /goal is active and there is a completion, blocker, or result to report, or when the user invokes /notify. Do NOT use unprompted for routine work.
+description: Use when the user explicitly asks to be notified on their phone ("avisame al celular", "mandame un ntfy", "notify me"), when a long-running task, /goal, or background job completes or hits a blocker, or when the user invokes /notify. Do NOT use unprompted for routine work.
 ---
 
 # Notify — push notification to phone via ntfy
 
-Sends a push notification by publishing to an ntfy topic. The topic is **not hardcoded**: it is read from the `NTFY_TOPIC` environment variable or from `~/.config/notify/.env`.
+Sends a push notification by publishing to an ntfy topic. The topic, server, and optional auth token are read from environment variables or from `~/.config/notify/.env`.
 
-## Resolve the topic (always first)
+## Resolve config (always first)
 
 ```bash
-TOPIC="${NTFY_TOPIC:-$(grep -sh '^NTFY_TOPIC=' ~/.config/notify/.env | tail -1 | cut -d= -f2-)}"
+TOPIC="${NTFY_TOPIC:-$(grep -sh '^NTFY_TOPIC=' ~/.config/notify/.env 2>/dev/null | tail -1 | cut -d= -f2-)}"
+SERVER="${NTFY_SERVER:-https://ntfy.sh}"
+TOKEN="${NTFY_TOKEN:-}"
 [ -z "$TOPIC" ] && echo "NTFY_TOPIC not set. Copy .env.example to ~/.config/notify/.env and set the topic." && exit 1
 ```
 
-With `$TOPIC` resolved, publish:
+With config resolved, publish using the helper script:
 
 ```bash
-curl -d 'message' "https://ntfy.sh/$TOPIC"
+bash skills/notify/scripts/notify.sh "Title" "Message" [priority] [click-url]
+```
+
+Or with raw curl:
+
+```bash
+curl -H "Title: Title" -H "Priority: 3" -d 'Message' "$SERVER/$TOPIC"
 ```
 
 ## When to use
 
-- `/goal` is active and there is something to report (task finished, blocker, result).
+- A long-running task, background job, or goal completes or hits a blocker and the user is not actively watching.
 - The user explicitly asks to be notified via ntfy / on their phone.
 - **Never otherwise.** Do not send notifications for routine work.
 
@@ -31,14 +39,22 @@ curl -d 'message' "https://ntfy.sh/$TOPIC"
 - Always set `Title:` to identify the thread/project: `[repo-or-topic] what happened`.
 - Do not include the time: ntfy timestamps messages automatically.
 
-Full example:
+Full example with the helper script:
 
 ```bash
-TOPIC="${NTFY_TOPIC:-$(grep -sh '^NTFY_TOPIC=' ~/.config/notify/.env | tail -1 | cut -d= -f2-)}"
-curl -H "Title: [sonora-api] tests OK" -H "Tags: white_check_mark" -H "Priority: 4" \
-  -H "Click: https://github.com/org/repo/pull/42" \
+bash skills/notify/scripts/notify.sh "[sonora-api] tests OK" \
+  "Los 42 tests pasaron, PR listo para review" 4 \
+  "https://github.com/org/repo/pull/42"
+```
+
+Or with raw curl (pass token if the topic is protected):
+
+```bash
+curl -H "Title: [sonora-api] tests OK" -H "Tags: white_check_mark" \
+  -H "Priority: 4" -H "Click: https://github.com/org/repo/pull/42" \
+  -H "Authorization: Bearer $TOKEN" \
   -d 'Los 42 tests pasaron, PR listo para review' \
-  "https://ntfy.sh/$TOPIC"
+  "$SERVER/$TOPIC"
 ```
 
 ## Available headers
@@ -55,12 +71,36 @@ curl -H "Title: [sonora-api] tests OK" -H "Tags: white_check_mark" -H "Priority:
 ## Screenshots and files
 
 ```bash
-TOPIC="${NTFY_TOPIC:-$(grep -sh '^NTFY_TOPIC=' ~/.config/notify/.env | tail -1 | cut -d= -f2-)}"
-curl -T screenshot.png -H "Filename: screenshot.png" -H "Title: [topic] screenshot" \
-  "https://ntfy.sh/$TOPIC"
+bash skills/notify/scripts/notify.sh "[topic] screenshot" "" 3 "" | curl -T screenshot.png \
+  -H "Filename: screenshot.png" "$SERVER/$TOPIC"
 ```
 
 Max 15 MB; the attachment expires on the server after ~3 h. Images show as a preview on the phone.
+
+## Infallible notifications via hooks
+
+Skills fire only when the model decides to use them. For guaranteed notifications on task completion (regardless of model routing), configure a platform hook instead. Example for Hermes `settings.json`:
+
+```json
+{
+  "hooks": {
+    "stop": [
+      {
+        "command": "bash skills/notify/scripts/notify.sh \"Hermes stopped\" \"Session ended\" 3",
+        "platforms": ["all"]
+      }
+    ],
+    "notification": [
+      {
+        "command": "bash skills/notify/scripts/notify.sh \"{{title}}\" \"{{message}}\" {{priority}}",
+        "platforms": ["all"]
+      }
+    ]
+  }
+}
+```
+
+With hooks the phone pings every time — no skill invocation needed. Use the skill when the user explicitly asks; use hooks when the notification must be deterministic.
 
 ## On failure
 

@@ -1,9 +1,11 @@
 ---
 name: reduce-complexity
-description: Per-line complexity reduction pass over the current branch's diff — flatten dense expressions into boring, statement-shaped code without changing behavior
+description: Per-line complexity reduction pass over the current branch's diff. Trigger phrases: "simplify code", "clean up", "refactor for clarity", "de-clever this", "review readability", "reduce complexity", or before opening a PR. Flattens dense expressions into boring, statement-shaped code without changing behavior. Differs from generic /simplify by targeting per-line density (ternaries, nested optional chaining, inline casts) rather than just removing lines.
 ---
 
 # Reduce Complexity
+
+> **Not `/simplify`.** Claude Code already ships a native `/simplify` command that removes lines and collapses blocks. This skill does the opposite: it *adds* lines to flatten dense expressions. One idea per line, named intermediates, early returns. When the user says "simplify" they usually mean "make readable" — this skill handles the cases where readable means more lines, not fewer.
 
 Reduce the complexity of each line, NOT the line count. The taste being enforced:
 boring, flat, statement-shaped code. One idea per line. Named intermediates over
@@ -22,6 +24,8 @@ beats a clever 1-liner.
 
 Launch ONE review subagent via the Agent tool (read-only; its final message is
 data for you, not the user). Give it the diff scope and this hunt list:
+
+> If the harness does not support subagents (Claude Code /skills.sh without Agent tool, Pi, etc.), run the review inline yourself using the same hunt list below. The output format and rules stay identical.
 
 1. **Ternaries doing too much**: nested ternary chains (rewrite as keyed map,
    if/return helper, or switch); ternaries whose branches contain function calls,
@@ -48,6 +52,14 @@ Rules the reviewer must follow (pass verbatim):
 - Skip anything where the rewrite would be longer AND no clearer.
 - Each finding must include: file, line, one sentence on WHAT is complex, and
   the EXACT paste-ready replacement.
+
+### Language-specific hunt list (TypeScript / JavaScript)
+
+This skill was originally written for TS/JS codebases. When working in other
+languages, translate the concepts: ternary chains → nested conditional
+expressions, `as` casts → unsafe casts, `??=` → default-assignment idioms,
+JSX → templating logic. For a language-agnostic core, see
+`references/generic-hunt-list.md`.
 
 ## Phase 2 — Apply
 
