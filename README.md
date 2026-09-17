@@ -9,6 +9,7 @@ Each published skill is a folder under [`skills/`](skills/) with a `SKILL.md` (Y
 | Skill | What it does |
 |---|---|
 | [`eli5`](skills/eli5/SKILL.md) | Explains a thing (a PR, a diff, a module, a decision) from scratch, in plain language. |
+| [`write-pr`](skills/write-pr/SKILL.md) | Writes a PR description that carries what the diff cannot show. |
 
 ## In progress
 
@@ -72,6 +73,8 @@ git clone git@github.com:emiliacb/skills.git ~/.pi/agent/skills/emiliacb-skills
 ```
 skills/                          # published; one folder serves all four installers
   eli5/
+    SKILL.md
+  write-pr/
     SKILL.md
 in-progress/                     # drafts; not discovered by any installer
   notify/
