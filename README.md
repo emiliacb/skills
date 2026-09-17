@@ -9,7 +9,6 @@ Each published skill is a folder under [`skills/`](skills/) with a `SKILL.md` (Y
 | Skill | What it does |
 |---|---|
 | [`eli5`](skills/eli5/SKILL.md) | Explains a thing (a PR, a diff, a module, a decision) from scratch, in plain language. |
-| [`write-pr`](skills/write-pr/SKILL.md) | Writes a PR description that carries what the diff cannot show. |
 
 ## In progress
 
@@ -20,6 +19,7 @@ Drafts under [`in-progress/`](in-progress/). They are **not** picked up by any o
 | [`notify`](in-progress/notify/SKILL.md) | Sends push notifications to the phone via [ntfy](https://ntfy.sh). |
 | [`prune-comments`](in-progress/prune-comments/SKILL.md) | Deletes comments that do not earn their place, in a comment-only diff. |
 | [`reduce-complexity`](in-progress/reduce-complexity/SKILL.md) | Per-line complexity reduction pass over the current branch's diff. |
+| [`write-pr`](in-progress/write-pr/SKILL.md) | Writes a PR description that carries what the diff cannot show. |
 
 ## Setup (for the `notify` skill)
 
@@ -74,8 +74,6 @@ git clone git@github.com:emiliacb/skills.git ~/.pi/agent/skills/emiliacb-skills
 skills/                          # published; one folder serves all four installers
   eli5/
     SKILL.md
-  write-pr/
-    SKILL.md
 in-progress/                     # drafts; not discovered by any installer
   notify/
     SKILL.md
@@ -85,6 +83,8 @@ in-progress/                     # drafts; not discovered by any installer
   reduce-complexity/
     SKILL.md
     references/
+  write-pr/
+    SKILL.md
 .claude-plugin/
   marketplace.json               # marketplace catalog (Claude)
   plugin.json                    # plugin manifest (Claude)
