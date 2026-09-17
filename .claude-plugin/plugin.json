@@ -1,7 +1,7 @@
 {
   "name": "skills",
-  "description": "Emilia's personal skills: eli5, notify and reduce-complexity.",
-  "version": "0.2.0",
+  "description": "Emilia's personal skills. Published: eli5.",
+  "version": "0.3.0",
   "author": {
     "name": "Emilia CB",
     "email": "EmiliaCabralB@gmail.com"
