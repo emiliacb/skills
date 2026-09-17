@@ -16,10 +16,25 @@ Drafts under [`in-progress/`](in-progress/). They are **not** picked up by any o
 
 | Skill | What it does |
 |---|---|
+| [`delegate`](in-progress/delegate/SKILL.md) | Delegates a task to a set of eight specialised subagents. |
 | [`notify`](in-progress/notify/SKILL.md) | Sends push notifications to the phone via [ntfy](https://ntfy.sh). |
 | [`prune-comments`](in-progress/prune-comments/SKILL.md) | Deletes comments that do not earn their place, in a comment-only diff. |
 | [`reduce-complexity`](in-progress/reduce-complexity/SKILL.md) | Per-line complexity reduction pass over the current branch's diff. |
 | [`write-pr`](in-progress/write-pr/SKILL.md) | Writes a PR description that carries what the diff cannot show. |
+
+### A note on `delegate`
+
+`delegate` is the one skill here that cannot be harness-agnostic. Its `SKILL.md` names eight
+subagents, and only Claude Code can load them: agent definitions live in an `agents/` directory
+at the **plugin root**, one Markdown file each, discovered by convention (no `agents` field in
+`plugin.json` is needed). Codex declares subagents as TOML under `.codex/agents/` with a
+`developer_instructions` field, so each file would have to be translated. Hermes spawns
+subagents at runtime through `delegate_task(...)` and has nothing to declare. The Vercel skills
+CLI has no subagent concept at all.
+
+So publishing it means moving `in-progress/delegate/agents/` to `agents/` at the repo root and
+`in-progress/delegate/SKILL.md` to `skills/delegate/SKILL.md`. Until then the whole thing sits
+inert under `in-progress/`.
 
 ## Setup (for the `notify` skill)
 
@@ -75,6 +90,9 @@ skills/                          # published; one folder serves all four install
   eli5/
     SKILL.md
 in-progress/                     # drafts; not discovered by any installer
+  delegate/
+    SKILL.md
+    agents/                      # 8 subagents; go to agents/ at the repo root to publish
   notify/
     SKILL.md
     scripts/

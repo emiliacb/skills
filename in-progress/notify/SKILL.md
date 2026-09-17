@@ -42,7 +42,7 @@ curl -H "Title: Title" -H "Priority: 3" -d 'Message' "$SERVER/$TOPIC"
 Full example with the helper script:
 
 ```bash
-bash in-progress/notify/scripts/notify.sh "[sonora-api] tests OK" \
+bash in-progress/notify/scripts/notify.sh "[api] tests OK" \
   "Los 42 tests pasaron, PR listo para review" 4 \
   "https://github.com/org/repo/pull/42"
 ```
@@ -50,7 +50,7 @@ bash in-progress/notify/scripts/notify.sh "[sonora-api] tests OK" \
 Or with raw curl (pass token if the topic is protected):
 
 ```bash
-curl -H "Title: [sonora-api] tests OK" -H "Tags: white_check_mark" \
+curl -H "Title: [api] tests OK" -H "Tags: white_check_mark" \
   -H "Priority: 4" -H "Click: https://github.com/org/repo/pull/42" \
   -H "Authorization: Bearer $TOKEN" \
   -d 'Los 42 tests pasaron, PR listo para review' \
