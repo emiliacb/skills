@@ -7,7 +7,7 @@ description: "Use when the user wants a from-scratch explanation of a thing (a P
 
 The user named a thing (a PR, a diff, a module, a decision, a concept) and wants to understand it the way a smart friend with no context would: what it is, what it is for, and why it looks the way it does.
 
-Unlike `/bro`, this is not a rewrite of your last message. It is a fresh explanation of the named thing. You may read the thing (the diff, the PR body, the files) before answering. You may not invent: every claim traces to something you read or something already said in this conversation.
+This is not a simpler re-explanation of the previous answer: it is a fresh explanation of the thing the user named, written as if nothing had been said about it yet. You may read the thing (the diff, the PR body, the files) before answering. You may not invent: every claim traces to something you read or something already said in this conversation.
 
 ## Shape
 
