@@ -55,7 +55,8 @@ Everything below applies to a task that changes code.
 ## Test first
 
 Write the test, run it, watch it fail for the reason you expect, then make it pass. A test
-that has never failed has never been shown to test anything.
+that has never failed has never been shown to test anything. If the project ships a
+test-first skill, follow that instead of improvising the cycle.
 
 Run only the test file you are working on. Never the full suite: it is slow, it needs
 services you may not have, and running it belongs to the `tester` at the end of the run. If you cannot run

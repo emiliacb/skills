@@ -7,6 +7,9 @@ description: Use always you find yourself in a main thread. We want to delegate 
 
 Use the subagents Manager, Explorer, Implementer, Planner, Refactorer, Retro, Shipper and Tester.
 
+This skill needs a harness that can load those subagents from the `agents/` directory shipped
+beside it. Without them there is nothing to delegate to, and the skill does not apply.
+
 ## Descriptions
 
 **manager** — Owns a task end to end and delegates every step of it to subagents. Runs no commands at all. Spawns explorers for context, a planner for the spec and plan, implementers for the code and for every shell command, a refactorer for cleanup, a tester for verification. Writes the Definition of Ready, scores the plan against it, and sends feedback until it passes. Use for any task big enough to need a plan.

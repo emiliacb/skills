@@ -1,6 +1,7 @@
 ---
 name: eli5
 description: "Use when the user wants a from-scratch explanation of a thing (a PR, a diff, a module, a decision): 'explain X like I'm five', 'eli5', 'why are there so many changes in this PR', 'what does this PR/change/module actually do'."
+license: MIT
 ---
 
 # /eli5 - explain a thing from scratch

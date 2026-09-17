@@ -1,71 +1,39 @@
 # skills
 
-Emilia's personal skills, installable from several agents/harnesses.
+Emilia's personal skills, installable from four agent harnesses.
 
-Each published skill is a folder under [`skills/`](skills/) with a `SKILL.md` (YAML frontmatter + instructions). The repo also ships the config files to work as a **Claude Code plugin marketplace**.
+A skill is a folder under [`skills/`](skills/) holding a `SKILL.md`: YAML frontmatter plus instructions. The repo also ships the config files that make it a **Claude Code plugin marketplace**.
 
-## Available skills
+## Skills
 
 | Skill | What it does |
 |---|---|
 | [`eli5`](skills/eli5/SKILL.md) | Explains a thing (a PR, a diff, a module, a decision) from scratch, in plain language. |
 
-## In progress
+## Drafts
 
-Drafts under [`in-progress/`](in-progress/). They are **not** picked up by any of the installers below — every harness discovers `skills/<name>/SKILL.md` and looks nowhere else. Move a folder into `skills/` to publish it.
+[`in-progress/`](in-progress/) holds skills that are still being written: `delegate`, `notify`, `prune-comments`, `reduce-complexity` and `write-pr`.
 
-| Skill | What it does |
-|---|---|
-| [`delegate`](in-progress/delegate/SKILL.md) | Delegates a task to a set of eight specialised subagents. |
-| [`notify`](in-progress/notify/SKILL.md) | Sends push notifications to the phone via [ntfy](https://ntfy.sh). |
-| [`prune-comments`](in-progress/prune-comments/SKILL.md) | Deletes comments that do not earn their place, in a comment-only diff. |
-| [`reduce-complexity`](in-progress/reduce-complexity/SKILL.md) | Per-line complexity reduction pass over the current branch's diff. |
-| [`write-pr`](in-progress/write-pr/SKILL.md) | Writes a PR description that carries what the diff cannot show. |
-
-### A note on `delegate`
-
-`delegate` is the one skill here that cannot be harness-agnostic. Its `SKILL.md` names eight
-subagents, and only Claude Code can load them: agent definitions live in an `agents/` directory
-at the **plugin root**, one Markdown file each, discovered by convention (no `agents` field in
-`plugin.json` is needed). Codex declares subagents as TOML under `.codex/agents/` with a
-`developer_instructions` field, so each file would have to be translated. Hermes spawns
-subagents at runtime through `delegate_task(...)` and has nothing to declare. The Vercel skills
-CLI has no subagent concept at all.
-
-So publishing it means moving `in-progress/delegate/agents/` to `agents/` at the repo root and
-`in-progress/delegate/SKILL.md` to `skills/delegate/SKILL.md`. Until then the whole thing sits
-inert under `in-progress/`.
-
-## Setup (for the `notify` skill)
-
-The ntfy topic is **not stored in the repo**. Configure it once:
-
-```bash
-mkdir -p ~/.config/notify
-cp .env.example ~/.config/notify/.env
-# edit ~/.config/notify/.env and set your topic
-```
-
-The skill reads `NTFY_TOPIC` from the environment variable or from `~/.config/notify/.env`.
+The Claude Code plugin publishes only `skills/`, so it never installs them. The two installers that clone the whole repo, Hermes and Pi, discover every `SKILL.md` inside it, drafts included.
 
 ## Installation
 
-### Claude Code (plugin marketplace)
+### Claude Code
 
 ```
 /plugin marketplace add emiliacb/skills
 /plugin install skills@emiliacb
 ```
 
-Skills are namespaced: `/skills:eli5`.
+Installed skills are namespaced: `/skills:eli5`.
 
-### Vercel skills.sh
+### Vercel skills
 
 ```bash
 npx skills add emiliacb/skills
 ```
 
-Discovers `skills/<name>/SKILL.md` automatically.
+See the [Agent Skills docs](https://vercel.com/docs/agent-resources/skills) for how the CLI resolves a GitHub source.
 
 ### Hermes Agent
 
@@ -73,26 +41,26 @@ Discovers `skills/<name>/SKILL.md` automatically.
 hermes skills install https://raw.githubusercontent.com/emiliacb/skills/main/skills/eli5/SKILL.md
 ```
 
-Or clone the repo into `~/.hermes/skills/` and Hermes auto-discovers the skills on startup.
+That installs a single skill from its URL. Cloning the repo into `~/.hermes/skills/` instead makes Hermes discover every `SKILL.md` in it on startup.
 
 ### Pi
 
 ```bash
-git clone git@github.com:emiliacb/skills.git ~/.pi/agent/skills/emiliacb-skills
+git clone https://github.com/emiliacb/skills.git ~/.pi/agent/skills/emiliacb-skills
 ```
 
-(use `.pi/skills/` instead of `~/.pi/agent/skills/` for a per-project install). Load with `/skill:eli5`.
+Use `.pi/skills/` instead of `~/.pi/agent/skills/` for a per-project install. Skills load as `/skill:eli5`.
 
 ## Layout
 
 ```
-skills/                          # published; one folder serves all four installers
+skills/
   eli5/
     SKILL.md
-in-progress/                     # drafts; not discovered by any installer
+in-progress/
   delegate/
     SKILL.md
-    agents/                      # 8 subagents; go to agents/ at the repo root to publish
+    agents/
   notify/
     SKILL.md
     scripts/
@@ -104,7 +72,8 @@ in-progress/                     # drafts; not discovered by any installer
   write-pr/
     SKILL.md
 .claude-plugin/
-  marketplace.json               # marketplace catalog (Claude)
-  plugin.json                    # plugin manifest (Claude)
+  marketplace.json
+  plugin.json
 .env.example                     # config template for notify; the real .env is not versioned
+LICENSE
 ```

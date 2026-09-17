@@ -19,7 +19,7 @@ TOKEN="${NTFY_TOKEN:-}"
 With config resolved, publish using the helper script:
 
 ```bash
-bash in-progress/notify/scripts/notify.sh "Title" "Message" [priority] [click-url]
+bash scripts/notify.sh "Title" "Message" [priority] [click-url]
 ```
 
 Or with raw curl:
@@ -42,7 +42,7 @@ curl -H "Title: Title" -H "Priority: 3" -d 'Message' "$SERVER/$TOPIC"
 Full example with the helper script:
 
 ```bash
-bash in-progress/notify/scripts/notify.sh "[api] tests OK" \
+bash scripts/notify.sh "[api] tests OK" \
   "Los 42 tests pasaron, PR listo para review" 4 \
   "https://github.com/org/repo/pull/42"
 ```
@@ -71,7 +71,7 @@ curl -H "Title: [api] tests OK" -H "Tags: white_check_mark" \
 ## Screenshots and files
 
 ```bash
-bash in-progress/notify/scripts/notify.sh "[topic] screenshot" "" 3 "" | curl -T screenshot.png \
+bash scripts/notify.sh "[topic] screenshot" "" 3 "" | curl -T screenshot.png \
   -H "Filename: screenshot.png" "$SERVER/$TOPIC"
 ```
 
@@ -86,13 +86,13 @@ Skills fire only when the model decides to use them. For guaranteed notification
   "hooks": {
     "stop": [
       {
-        "command": "bash in-progress/notify/scripts/notify.sh \"Hermes stopped\" \"Session ended\" 3",
+        "command": "bash scripts/notify.sh \"Hermes stopped\" \"Session ended\" 3",
         "platforms": ["all"]
       }
     ],
     "notification": [
       {
-        "command": "bash in-progress/notify/scripts/notify.sh \"{{title}}\" \"{{message}}\" {{priority}}",
+        "command": "bash scripts/notify.sh \"{{title}}\" \"{{message}}\" {{priority}}",
         "platforms": ["all"]
       }
     ]
