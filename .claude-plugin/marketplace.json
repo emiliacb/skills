@@ -2,13 +2,13 @@
   "name": "emiliacb",
   "owner": {
     "name": "Emilia CB",
-    "email": "emilia@usesonora.com"
+    "email": "EmiliaCabralB@gmail.com"
   },
   "plugins": [
     {
       "name": "skills",
       "source": "./",
-      "description": "Emilia's personal skills (starting with notify: push notifications to the phone via ntfy)."
+      "description": "Emilia's personal skills: eli5, notify and reduce-complexity."
     }
   ]
 }
